@@ -6,11 +6,6 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rigidBody;
     public float speed;
     
-    void Start()
-    {
-        
-    }
-    
     void Update()
     {
         if (Input.GetAxis("Horizontal") > 0)
@@ -34,5 +29,10 @@ public class PlayerController : MonoBehaviour
             rigidBody.linearVelocity = new Vector2(0f, 0f);
         }
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Level Completed");
     }
 }
