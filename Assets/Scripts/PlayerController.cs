@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Level Completed");
+        if (other.gameObject.CompareTag("Door"))
+        {
+            Debug.Log("Level Completed");
+        }
+        
     }
 }
