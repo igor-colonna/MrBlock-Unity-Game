@@ -1,13 +1,30 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using UnityEngine.Timeline;
 
 public class PlayerController : MonoBehaviour
 {
     
     public Rigidbody2D rigidBody;
     public float speed;
+    public GameObject gameWonPanel;
+    public GameObject gamePausePanel;
+    public GameObject gameLosePanel;
+
+    private bool isGameOver = false;
     
     void FixedUpdate()
     {
+        if (isGameOver)
+        {
+            return;
+        }
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            gamePausePanel.SetActive(true);
+            Time.timeScale = 0;
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rigidBody.linearVelocity = new Vector2(0, 0);
@@ -40,8 +57,27 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Door"))
         {
+            gameWonPanel.SetActive(true);
+            isGameOver = true;
             Debug.Log("Level Completed");
         }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            gameLosePanel.SetActive(true);
+            Debug.Log("Level Lost");
+            isGameOver = true;
+        }
         
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ResumeGame()
+    {
+        gamePausePanel.SetActive(false);
+        Time.timeScale = 1;
     }
 }
